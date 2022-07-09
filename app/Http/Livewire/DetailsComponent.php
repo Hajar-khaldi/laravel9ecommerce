@@ -15,7 +15,7 @@ class DetailsComponent extends Component
         $this->slug = $slug;
     }
 
-    public function cart($product_id , $product_name , $product_price ){
+    public function store($product_id , $product_name , $product_price ){
         Cart::add($product_id , $product_name ,1, $product_price)->associate('App\models\Product');
         session()->flash('success_message','Item added in Cart');
         return redirect()->route('product.cart');
