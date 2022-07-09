@@ -167,7 +167,6 @@
                                                 <li> <a class="dropdown-item" href="{{ url('profile/account') }}">Profile {{ Auth::user()->name }}</a> </li>
                                                 <li> <a class="dropdown-item" href="{{ url('profile/setting') }}">Account Settings</a> </li>
                                                 <li> <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a> </li>
-                                                <li> <a class="dropdown-item" href="{{ route('admin.categories') }}">Categories</a> </li>
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>

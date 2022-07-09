@@ -45,8 +45,17 @@
             </div> <!-- rating-wrap.// -->
 
             <div class="mb-3">
-              <var class="price h5">${{ $product->regular_price }}</var>
-              <span class="text-muted">/per box</span>
+              @if($product->sale_price > 0)
+                <var class="price h5">${{ $product->sale_price }}</var>
+                <span class="text-muted">/per box</span>
+                <del class="d-block">
+                    <var class="price h6">${{ $product->regular_price }}</var>
+                    <span class="text-muted" style="font-size: small;">/per box</span>
+                </del>
+              @else
+                <var class="price h5">${{ $product->regular_price }}</var>
+                <span class="text-muted">/per box</span>
+              @endif
             </div>
 
             <p>{{ $product->short_description }}</p>

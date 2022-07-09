@@ -150,86 +150,83 @@
     </section>
     <!-- ================ SECTION PRODUCTS END.// ================ -->
 
-
     <!-- ================ SECTION PRODUCTS ================ -->
-    <section class="container">
+    <section class="padding-y">
+        <div class="container">
 
-        <header class="section-heading">
-            <h3 class="section-title">Recommended</h3>
-        </header>
+            <header class="section-heading">
+                <h3 class="section-title">On sale</h3>
+            </header>
 
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <figure class="card-product-grid">
-                    <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                        class="img-wrap rounded bg-gray-light">
-                        <img height="250" class="mix-blend-multiply" src="{{ asset('frontend/images/9.jpg') }}">
-                    </a>
-                    <figcaption class="pt-2">
-                        <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                            class="float-end btn btn-primary btn-icon"> <i class="fa fa-shopping-cart"></i> </a>
-                        <strong class="price">$17.00</strong> <!-- price.// -->
-                        <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                            class="title text-truncate">Blue jeans shorts for men</a>
-                        <small class="text-muted">Sizes: S, M, XL</small>
-                    </figcaption>
-                </figure>
-            </div> <!-- col end.// -->
+            <div class="row">
+                @foreach ( $products as $product )
 
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <figure class="card-product-grid">
-                    <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                        class="img-wrap rounded bg-gray-light">
-                        <img height="250" class="mix-blend-multiply" src="{{ asset('frontend/images/10.jpg') }}">
-                    </a>
-                    <figcaption class="pt-2">
-                        <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                            class="float-end btn btn-primary btn-icon"> <i class="fa fa-shopping-cart"></i> </a>
-                        <strong class="price">$9.50</strong> <!-- price.// -->
-                        <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                            class="title text-truncate">Slim fit T-shirt for men</a>
-                        <small class="text-muted">Sizes: S, M, XL</small>
-                    </figcaption>
-                </figure>
-            </div> <!-- col end.// -->
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <figure class="card-product-grid">
+                            <a href="{{ route('product.details',['slug'=>$product->slug]) }}" class="img-wrap rounded bg-gray-light">
+                                <img height="250" class="mix-blend-multiply" src="{{ asset('frontend/images/products/'.$product->image) }}">
+                            </a>
+                            <figcaption class="pt-2">
+                                <a href="#" class="float-end btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
+                                <div class="mb-3">
+                                    @if($product->sale_price > 0)
+                                      <var class="price h5">${{ $product->sale_price }}</var>
+                                      <span class="text-muted">/per box</span>
+                                      <del class="d-block">
+                                          <var class="price h6">${{ $product->regular_price }}</var>
+                                          <span class="text-muted" style="font-size: small;">/per box</span>
+                                      </del>
+                                    @else
+                                      <var class="price h5">${{ $product->regular_price }}</var>
+                                      <span class="text-muted">/per box</span>
+                                    @endif
+                                  </div>
+                                <a href="{{ route('product.details',['slug'=>$product->slug]) }}" class="title text-truncate">{{ $product->name }}</a>
+                                <small class="text-muted">Sizes: S, M, XL</small>
+                            </figcaption>
+                        </figure>
+                    </div> <!-- col end.// -->
 
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <figure class="card-product-grid">
-                    <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                        class="img-wrap rounded bg-gray-light">
-                        <img height="250" class="mix-blend-multiply" src="{{ asset('frontend/images/11.jpg') }}">
-                    </a>
-                    <figcaption class="pt-2">
-                        <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                            class="float-end btn btn-primary btn-icon"> <i class="fa fa-shopping-cart"></i> </a>
-                        <strong class="price">$29.95</strong> <!-- price.// -->
-                        <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                            class="title text-truncate">Modern product name here</a>
-                        <small class="text-muted">Sizes: S, M, XL</small>
-                    </figcaption>
-                </figure>
-            </div> <!-- col end.// -->
+                @endforeach
+            </div> <!-- row end.// -->
 
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <figure class="card-product-grid">
-                    <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                        class="img-wrap rounded bg-gray-light">
-                        <img height="250" class="mix-blend-multiply" src="{{ asset('frontend/images/12.jpg') }}">
-                    </a>
-                    <figcaption class="pt-2">
-                        <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                            class="float-end btn btn-primary btn-icon"> <i class="fa fa-shopping-cart"></i> </a>
-                        <strong class="price">$29.95</strong> <!-- price.// -->
-                        <a href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/page-index-2.html#"
-                            class="title text-truncate">Modern product name here</a>
-                        <small class="text-muted">Sizes: S, M, XL</small>
-                    </figcaption>
-                </figure>
-            </div> <!-- col end.// -->
-        </div> <!-- row end.// -->
-
-    </section><!-- container end.// -->
+        </div> <!-- container end.// -->
+    </section>
     <!-- ================ SECTION PRODUCTS END.// ================ -->
+
+    <!-- ================ SECTION : Home category// ================ -->
+    <div class="card">
+        <header class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            @foreach ( $categories as $key => $category )
+                @if(count($category->products) >0)
+                    <li class="nav-item">
+                    <a href="#" data-bs-target="#tab{{ $category->id }}" data-bs-toggle="tab" class="nav-link {{ $key==0 ? "active" : "" }}">{{ $category->name }}</a>
+                    </li>
+                @endif
+            @endforeach
+          </ul>
+        </header>
+        <div class="tab-content">
+            @foreach ( $categories as $key => $category )
+                @if(count($category->products) >0)
+                    <article id="tab{{ $category->id }}" class="tab-pane  card-body {{ $key==0 ? "active show" : "" }}">
+                        <div class="row">
+                            @foreach ( $category->products->take($numberOfProducts) as $key_product =>  $product )
+                                <div class="col-md-4">
+                                    <a href="{{ route('product.details',['slug'=>$product->slug ]) }}" class="img-wrap rounded bg-gray-light">
+                                        <figure><img height="250" class="mix-blend-multiply" src="{{ asset('frontend/images/products/'.$product->image ) }}"></figure>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </article> <!-- tab-content.// -->
+                @endif
+            @endforeach
+        </div>
+      </div>
+    <!-- ================ SECTION home : category END.// ================ -->
+
 
 
     <section class="padding-y">

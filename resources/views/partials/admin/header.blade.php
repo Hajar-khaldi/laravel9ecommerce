@@ -125,6 +125,7 @@
                             <li> <a class="dropdown-item" href="{{ url('profile/setting') }}">Account Settings</a> </li>
                             <li> <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a> </li>
                             <li> <a class="dropdown-item" href="{{ route('admin.categories') }}">Categories</a> </li>
+                            <li> <a class="dropdown-item" href="{{ route('admin.homecategories') }}">Mange home Categories</a> </li>
                             <li> <a class="dropdown-item" href="{{ route('admin.products') }}">Products</a> </li>
                             <li> <a class="dropdown-item" href="{{ route('admin.homeslider') }}">Manage home slider</a> </li>
                             <li>
@@ -154,9 +155,8 @@
         <div id="sidepanel-drop" class="sidepanel-drop"></div>
         <div class="sidepanel-inner d-flex flex-column">
             <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
-            <div class="app-branding">
-                <a class="app-logo" href="index.html"><img class="logo-icon me-2" src="assets/images/app-logo.svg" alt="logo"><span class="logo-text">PORTAL</span></a>
-
+            <div class="app-branding text-center">
+                <a class="app-logo" href="{{ url('/') }}"><img class=" me-2" height="50" src="{{ asset('frontend/images/logo_h&f.png') }}" alt="h&f"></a>
             </div><!--//app-branding-->
             <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
                 <ul class="app-menu list-unstyled accordion" id="menu-accordion">

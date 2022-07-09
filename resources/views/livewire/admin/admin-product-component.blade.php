@@ -74,6 +74,7 @@
                                             <th class="cell">Name</th>
                                             <th class="cell">Stock</th>
                                             <th class="cell">Price</th>
+                                            <th class="cell">Sale Price</th>
                                             <th class="cell">Category</th>
                                             <th class="cell">Date</th>
                                             <th class="cell">Action</th>
@@ -87,6 +88,7 @@
                                                 <td class="cell">{{ $product->name }}</td>
                                                 <td class="cell">{{ $product->stock_status }}</td>
                                                 <td class="cell">{{ $product->regular_price }}</td>
+                                                <td class="cell">{{ $product->sale_price }}</td>
                                                 <td class="cell" >{{ $product->category->name }}</td>
                                                 <td class="cell">{{ $product->created_at }}</td>
                                                 <td class="cell">
