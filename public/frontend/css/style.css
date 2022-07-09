@@ -1,0 +1,11 @@
+.bg-blue {
+    background-color: #788ca5;
+}
+
+.status_error {
+    color: #ff2748;
+}
+
+.status_error ul {
+    margin-top: 0.4rem!important;
+}
