@@ -121,13 +121,15 @@
                     <div class="app-utility-item app-user-dropdown dropdown">
                         <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="assets/images/user.png" alt="user profile"></a>
                         <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
-                            <li> <a class="dropdown-item" href="{{ url('profile/account') }}">Profile {{ Auth::user()->name }}</a> </li>
-                            <li> <a class="dropdown-item" href="{{ url('profile/setting') }}">Account Settings</a> </li>
-                            <li> <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a> </li>
-                            <li> <a class="dropdown-item" href="{{ route('admin.categories') }}">Categories</a> </li>
-                            <li> <a class="dropdown-item" href="{{ route('admin.homecategories') }}">Mange home Categories</a> </li>
-                            <li> <a class="dropdown-item" href="{{ route('admin.products') }}">Products</a> </li>
-                            <li> <a class="dropdown-item" href="{{ route('admin.homeslider') }}">Manage home slider</a> </li>
+                            <li> <a class="dropdown-item" title="Profile" href="{{ url('profile/account') }}">Profile {{ Auth::user()->name }}</a> </li>
+                            <li> <a class="dropdown-item" title="Account Settings" href="{{ url('profile/setting') }}">Account Settings</a> </li>
+                            <li> <a class="dropdown-item" title="Dashboard" href="{{ route('admin.dashboard') }}">Dashboard</a> </li>
+                            <li> <a class="dropdown-item" title="Categories" href="{{ route('admin.categories') }}">Categories</a> </li>
+                            <li> <a class="dropdown-item" title="Manage home Categories" href="{{ route('admin.homecategories') }}">Manage home Categories</a> </li>
+                            <li> <a class="dropdown-item" title="Products" href="{{ route('admin.products') }}">Products</a> </li>
+                            <li> <a class="dropdown-item" title="Manage home slider" href="{{ route('admin.homeslider') }}">Manage home slider</a> </li>
+                            <li> <a class="dropdown-item" title="Manage Sale" href="{{ route('admin.sale') }}">Manage Sale</a> </li>
+                            <li> <a class="dropdown-item" title="Manage Coupons" href="{{ route('admin.coupons') }}">Manage Coupons</a> </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

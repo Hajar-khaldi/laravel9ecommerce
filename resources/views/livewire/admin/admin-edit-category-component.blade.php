@@ -26,10 +26,12 @@
                                 <div class="mb-3">
                                     <label for="category_name" class="form-label">Ctegory name</label>
                                         <input type="text" class="form-control" id="category_name" placeholder="Category name" wire:model="name" wire:keyup="generateslug"  required>
+                                        @error('name') <p class="text-danger">{{ $message }}</p> @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="category_slug" class="form-label">Category slug</label>
                                     <input type="text" class="form-control" id="category_slug" placeholder="Category slug" wire:model="slug"  required>
+                                    @error('slug') <p class="text-danger">{{ $message }}</p> @enderror
                                 </div>
 
                                 <button type="submit" class="btn app-btn-primary" >Update</button>

@@ -4,19 +4,25 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Product;
 use Livewire\Component;
-use App\Models\Category;
 use Livewire\WithPagination;
 
 class AdminProductComponent extends Component
 {
+
     use WithPagination;
+    public $deleted = '';
     protected $paginationTheme = 'bootstrap';
 
-    public function deleteProduct($id)
+    public function deleteProduct()
     {
-        $product = Product::find($id);
-        $product->delete();
+        Product::find($this->deleteId)->delete();
+        $this->dispatchBrowserEvent('closeModal');
         session()->flash('message','Product has been deleted with successfully ! ');
+    }
+
+    public function deleteId($id)
+    {
+        $this->deleteId = $id;
     }
 
     public function render()

@@ -128,16 +128,28 @@
                         <figure class="card-product-grid">
                             <a href="{{ route('product.details',['slug'=>$lproduct->slug]) }}"
                                 class="img-wrap rounded bg-gray-light">
-                                <span class="topbar"> <span class="badge bg-danger"> New </span> </span>
+                                <span class="align-items-baseline d-flex justify-content-between topbar">
+                                    <span class="badge bg-danger"> New </span>
+                                    {{-- @if($wishlist->contains($lproduct->id))
+                                        <button href="#" class="btn btn-icon btn-light added float-end">
+                                            <i class="fa fa-heart"></i>
+                                        </button>
+                                    @else
+                                        <button href="#" wire:click.prevent="addToWishList({{ $product->id }},'{{ $product->name }}',1,{{ $product->regular_price }})" class="btn btn-icon btn-light float-end">
+                                            <i class="fa fa-heart"></i>
+                                        </button>
+                                    @endif --}}
+                                </span>
                                 <img height="250" class="mix-blend-multiply"
                                     src="{{ asset('frontend/images/products/'.$lproduct->image) }}">
                             </a>
                             <figcaption class="pt-2">
                                 <a href="{{ route('product.details',['slug'=>$lproduct->slug]) }}"
                                     class="float-end btn btn-primary btn-icon"> <i class="fa fa-shopping-cart"></i> </a>
-                                <strong class="price">{{ $lproduct->regular_price }}</strong> <!-- price.// -->
+
                                 <a href="{{ route('product.details',['slug'=>$lproduct->slug]) }}"
                                     class="title text-truncate">{{ $lproduct->name }}</a>
+                                <strong class="price d-block">{{ $lproduct->regular_price }}</strong> <!-- price.// -->
                                 <small class="text-muted">Model: X-200</small>
                             </figcaption>
                         </figure>
@@ -151,47 +163,53 @@
     <!-- ================ SECTION PRODUCTS END.// ================ -->
 
     <!-- ================ SECTION PRODUCTS ================ -->
-    <section class="padding-y">
-        <div class="container">
+    <?php
+    //dd(count($sproducts)) ?>
+    @if(count($sproducts) > 0 && $sale->status == 1 && $sale->sale_date > Carbon\Carbon::now() )
+        <section class="padding-y">
+            <div class="container">
 
-            <header class="section-heading">
-                <h3 class="section-title">On sale</h3>
-            </header>
+                <header class="section-heading">
+                    <h3 class="section-title">On sale</h3>
+                </header>
 
-            <div class="row">
-                @foreach ( $products as $product )
+                <div class="row">
+                    <p id="demo" class="fs-2 fw-normal text-body text-center text-dark" data-time="{{ Carbon\Carbon::parse($sale->sale_date) }}" ></p>
+                    @foreach ( $sproducts as $sproduct )
 
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <figure class="card-product-grid">
-                            <a href="{{ route('product.details',['slug'=>$product->slug]) }}" class="img-wrap rounded bg-gray-light">
-                                <img height="250" class="mix-blend-multiply" src="{{ asset('frontend/images/products/'.$product->image) }}">
-                            </a>
-                            <figcaption class="pt-2">
-                                <a href="#" class="float-end btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
-                                <div class="mb-3">
-                                    @if($product->sale_price > 0)
-                                      <var class="price h5">${{ $product->sale_price }}</var>
-                                      <span class="text-muted">/per box</span>
-                                      <del class="d-block">
-                                          <var class="price h6">${{ $product->regular_price }}</var>
-                                          <span class="text-muted" style="font-size: small;">/per box</span>
-                                      </del>
-                                    @else
-                                      <var class="price h5">${{ $product->regular_price }}</var>
-                                      <span class="text-muted">/per box</span>
-                                    @endif
-                                  </div>
-                                <a href="{{ route('product.details',['slug'=>$product->slug]) }}" class="title text-truncate">{{ $product->name }}</a>
-                                <small class="text-muted">Sizes: S, M, XL</small>
-                            </figcaption>
-                        </figure>
-                    </div> <!-- col end.// -->
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <figure class="card-product-grid">
+                                <a href="{{ route('product.details',['slug'=>$sproduct->slug]) }}" class="img-wrap rounded bg-gray-light">
+                                    <span class="topbar"> <span class="badge bg-danger"> Sale </span> </span>
+                                    <img height="250" class="mix-blend-multiply" src="{{ asset('frontend/images/products/'.$sproduct->image) }}">
+                                </a>
+                                <figcaption class="pt-2">
+                                    <a href="#" class="float-end btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
+                                    <div class="mb-3">
+                                        @if($sproduct->sale_price > 0)
+                                        <var class="price h5">${{ $sproduct->sale_price }}</var>
+                                        <span class="text-muted">/per box</span>
+                                        <del class="d-block">
+                                            <var class="price h6">${{ $sproduct->regular_price }}</var>
+                                            <span class="text-muted" style="font-size: small;">/per box</span>
+                                        </del>
+                                        @else
+                                        <var class="price h5">${{ $sproduct->regular_price }}</var>
+                                        <span class="text-muted">/per box</span>
+                                        @endif
+                                    </div>
+                                    <a href="{{ route('product.details',['slug'=>$sproduct->slug]) }}" class="title text-truncate">{{ $sproduct->name }}</a>
+                                    <small class="text-muted">Sizes: S, M, XL</small>
+                                </figcaption>
+                            </figure>
+                        </div> <!-- col end.// -->
 
-                @endforeach
-            </div> <!-- row end.// -->
+                    @endforeach
+                </div> <!-- row end.// -->
 
-        </div> <!-- container end.// -->
-    </section>
+            </div> <!-- container end.// -->
+        </section>
+    @endif
     <!-- ================ SECTION PRODUCTS END.// ================ -->
 
     <!-- ================ SECTION : Home category// ================ -->
@@ -289,3 +307,38 @@
         </div>
     </section>
 </main>
+
+@push('scripts')
+
+<script>
+    // Set the date we're counting down to
+    var countDownDate = new Date(document.getElementById('demo').getAttribute('data-time')).getTime();
+
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+
+      // Get today's date and time
+      var now = new Date().getTime();
+
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Output the result in an element with id="demo"
+      document.getElementById("demo").innerHTML = days + " Days " + hours + " h "
+      + minutes + " m " + seconds + " s ";
+
+      // If the count down is over, write some text
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "EXPIRED";
+      }
+    }, 1000);
+    </script>
+
+@endpush

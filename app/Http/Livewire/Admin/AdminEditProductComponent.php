@@ -8,6 +8,7 @@ use Livewire\Component;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use Illuminate\Validation\Rule;
 
 class AdminEditProductComponent extends Component
 {
@@ -30,6 +31,8 @@ class AdminEditProductComponent extends Component
 
     public function mount($product_slug)
     {
+        $this->dispatchBrowserEvent('name-updated', ['newName' => $this->name]);
+
         $product = Product::where('slug',$product_slug)->first();
         $this->name = $product->name;
         $this->slug = $product->slug;
@@ -45,6 +48,7 @@ class AdminEditProductComponent extends Component
         $this->category_id = $product->category_id;
         $this->newimage = $product->newimage;
         $this->product_id = $product->id;
+
     }
 
     public function generateSlug()
@@ -52,8 +56,39 @@ class AdminEditProductComponent extends Component
         $this->slug = Str::slug($this->name,'-');
     }
 
+    public function updated($fields)
+    {
+        $this->validateOnly($fields,[
+            'name'=> "required",
+            'slug'=> ["required",Rule::unique("products")->ignore($this->slug,"slug")],
+            'short_description'=> "required",
+            'description'=> "required",
+            'regular_price'=> "required|numeric",
+            'sale_price'=> "nullable|numeric",
+            'sku'=> "required",
+            'stock_status'=> "required",
+            'quantity'=> "required|numeric",
+            // 'image'=> "mimes:jpeg,png,webp",
+            // 'newimage'=> "mimes:jpeg,png,webp",
+            'category_id'=> "required",
+        ]);
+    }
     public function updateProduct()
     {
+        $this->validate([
+            'name'=> "required",
+            'slug'=> ["required",Rule::unique("products")->ignore($this->slug,"slug")],
+            'short_description'=> "required",
+            'description'=> "required",
+            'regular_price'=> "required|numeric",
+            'sale_price'=> "nullable|numeric",
+            'sku'=> "required",
+            'stock_status'=> "required",
+            'quantity'=> "required|numeric",
+            // 'image'=> "mimes:jpeg,png,webp",
+            // 'newimage'=> "mimes:jpeg,png,webp",
+            'category_id'=> "required"
+        ]);
         $product = Product::find($this->product_id);
         $product->name = $this->name;
         $product->slug = $this->slug;
@@ -74,6 +109,7 @@ class AdminEditProductComponent extends Component
         $product->featured = $this->featured;
         $product->category_id = $this->category_id;
         $product->save();
+        $this->dispatchBrowserEvent('name-updated', ['newName' => $this->name]);
         session()->flash('message','Product has been updated successefully !');
     }
     public function render()

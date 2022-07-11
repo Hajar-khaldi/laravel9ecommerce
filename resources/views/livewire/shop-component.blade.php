@@ -83,16 +83,18 @@
             </header>
             <div class="collapse show" id="collapse_aside2">
             <div class="card-body">
-                <input type="range" class="form-range" min="0" max="100">
-                <div class="row mb-3">
-                <div class="col-6">
+
+                {{-- <input type="range" class="form-range" min="0" max="100"> --}}
+                <div id="range_price" wire:ignore></div>
+                <div class="row mb-3 mt-5">
+                <div class="col-6 mt-3">
                     <label for="min" class="form-label">Min</label>
-                    <input class="form-control" id="min" placeholder="$0" type="number">
+                    <input class="form-control" id="min" placeholder="$1"  value="{{ $min_price }}" type="number" readonly >
                 </div> <!-- col end.// -->
 
-                <div class="col-6">
+                <div class="col-6 mt-3">
                     <label for="max" class="form-label">Max</label>
-                    <input class="form-control" id="max" placeholder="$1,0000" type="number">
+                    <input class="form-control" id="max" placeholder="$1000"  value="{{ $max_price }}" type="number" readonly >
                 </div> <!-- col end.// -->
                 </div> <!-- row end.// -->
                 <button class="btn btn-light w-100" type="button">Apply</button>
@@ -197,7 +199,7 @@
             <main class="col-lg-9">
 
             <header class="d-sm-flex align-items-center border-bottom mb-4 pb-3">
-                <strong class="d-block py-2">32 Items found </strong>
+                <strong class="d-block py-2">{{ count($products) }} Items found </strong>
                 <div class="ms-auto">
                 <select class="form-select d-inline-block w-auto" wire:model="sorting">
                     <option value="default" selected="selected">Default sorting</option>
@@ -223,28 +225,51 @@
             </header>
 
             <!-- ========= content items ========= -->
-            <div class="row">
-                @foreach ( $products as $product )
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src="{{ asset('frontend/images/products/' . $product->image ) }}" alt="{{  $product->name }}">
+            <div class="position-relative" >
+                <div class="load"  wire:loading >
+                    <div class="sticky_loader" >
+                        <div class="la-cog">
+                            <div>
+                            </div>
                         </div>
-                        <figcaption class="info-wrap border-top">
-                        <div class="price-wrap">
-                            <strong class="price">{{  $product->regular_price }}</strong>
-                            {{-- <del class="price-old">$170.00</del> --}}
-                        </div> <!-- price-wrap.// -->
-                        <p class="title mb-2">{{  $product->name }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                        @forelse ( $products as $product )
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                            <figure class="card card-product-grid">
+                                <a href="{{ route('product.details',['slug'=>$product->slug]) }}">
+                                    <div class="img-wrap">
+                                        <img src="{{ asset('frontend/images/products/' . $product->image ) }}" alt="{{  $product->name }}">
+                                    </div>
+                                </a>
+                                <figcaption class="info-wrap border-top">
+                                <div class="price-wrap">
+                                    <strong class="price">{{  $product->regular_price }}</strong>
+                                    {{-- <del class="price-old">$170.00</del> --}}
+                                </div> <!-- price-wrap.// -->
+                                <a href="{{ route('product.details',['slug'=>$product->slug]) }}">
+                                    <p class="title mb-2">{{  $product->name }}</p>
+                                </a>
 
-                        <button wire:click.prevent="store({{ $product->id }},'{{ $product->name }}',{{ $product->regular_price }})" class="btn btn-primary">Add to cart</button>
-                        <a href="#" class="btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
-                        </figcaption>
-                    </figure>
-                    </div> <!-- col end.// -->
-                @endforeach
-            </div> <!-- row end.// -->
-
+                                <button wire:click.prevent="store({{ $product->id }},'{{ $product->name }}',{{ $product->regular_price }})" class="btn btn-primary">Add to cart</button>
+                                @if($wishlist->contains($product->id))
+                                    <button href="#" wire:click.prevent="removeFromWishlist({{$product->id}})" class="btn btn-icon btn-light added float-end">
+                                        <i class="fa fa-heart"></i>
+                                    </button>
+                                @else
+                                    <button href="#" wire:click.prevent="addToWishList({{ $product->id }},'{{ $product->name }}',1,{{ $product->regular_price }})" class="btn btn-icon btn-light float-end">
+                                        <i class="fa fa-heart"></i>
+                                    </button>
+                                @endif
+                                </figcaption>
+                            </figure>
+                            </div> <!-- col end.// -->
+                        @empty
+                            <p class="">No item found matching your search.</p>
+                        @endforelse
+                </div> <!-- row end.// -->
+            </div>
             <hr>
 
             <footer class="d-flex mt-4">
@@ -264,3 +289,32 @@
         </div> <!-- container .//  -->
     </section>
 </main>
+@push('scripts')
+    <script>
+
+        var sliderRange = document.getElementById('range_price');
+
+        noUiSlider.create(sliderRange, {
+            start: [1, 1000],
+            behaviour: 'drag',
+            connect: true,
+            range: {
+                'min': 1,
+                'max': 1000
+            },pips: {
+                mode: 'steps',
+                density: 3,
+                stepped: true
+            }
+        });
+
+        var min = document.getElementById('min');
+        var max = document.getElementById('max');
+
+        sliderRange.noUiSlider.on('update', function (values, handle) {
+            // (handle ? max : min).value = values[handle];
+            @this.set((handle ? 'max_price' : 'min_price'),values[handle]);
+        });
+
+    </script>
+@endpush

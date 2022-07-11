@@ -25,20 +25,51 @@ class AdminAddProductComponent extends Component
     public $image;
     public $category_id;
 
-    public function generateSlug()
-    {
-        $this->slug = Str::slug($this->name,'-');
-    }
-
     public function mount()
     {
         $this->stock_status = 'instock';
         $this->featured = 0;
 
     }
+    public function generateSlug()
+    {
+        $this->slug = Str::slug($this->name,'-');
+    }
+
+    public function updated($fields)
+    {
+        // dd($this->image->getMimeType(),$this->image->getClientOriginalExtension());
+        $this->validateOnly($fields,[
+            'name'=> "required",
+            'slug'=> "required|unique:products",
+            'short_description'=> "required",
+            'description'=> "required",
+            'regular_price'=> "required|numeric",
+            'sale_price'=> "nullable|numeric",
+            'sku'=> "required",
+            'stock_status'=> "required",
+            'quantity'=> "required|numeric",
+            'image'=> "required|image|mimes:jpeg,png,webp",
+            'category_id'=> "required"
+        ]);
+    }
 
     public function storeProduct()
     {
+        // dd($this->image->getMimeType(),$this->image->getClientOriginalExtension() );
+        $this->validate([
+            'name'=> "required",
+            'slug'=> "required|unique:products",
+            'short_description'=> "required",
+            'description'=> "required",
+            'regular_price'=> "required|numeric",
+            'sale_price'=> "nullable|numeric",
+            'sku'=> "required",
+            'stock_status'=> "required",
+            'quantity'=> "required|numeric",
+            'image'=> "required|image|mimes:jpeg,png,webp",
+            'category_id'=> "required"
+        ]);
         $product = new Product();
         $product->name = $this->name;
         $product->slug = $this->slug;

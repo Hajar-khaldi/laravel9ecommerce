@@ -4,13 +4,12 @@
             <div class="row">
                 <div class="col-md-9">
 
-                    @if( Session::has('success_message') )
+                    @if( session()->has('success_message') )
                         <div class="alert alert-success">
-                            <strong>Success</strong> {{ Session::get('success_message') }}
+                            <strong>Success</strong> {{ session()->get('success_message') }}
                         </div>
                     @endif
-                    @if(Cart::count() > 0)
-                        @foreach ( Cart::content() as $item )
+                    @forelse ( $cart as $item )
 
                             <article class="card card-body mb-3">
                                 <div class="row gy-3 align-items-center">
@@ -45,6 +44,7 @@
                                             </button>
                                         </div>
                                         <!-- input-group.// -->
+                                        <a href="#" wire:click.prevent="switchToSaveForLater('{{$item->rowId}}')" >Save for later</a>
                                     </div>
                                     <!-- col.// -->
                                     <div class="col"> <strong class="price"> ${{ $item->subtotal }} </strong> </div>
@@ -58,10 +58,9 @@
                                 <!-- row.// -->
                             </article>
 
-                        @endforeach
-                    @else
+                    @empty
                         <div class="alert alert-info">No item in Cart</div>
-                    @endif
+                    @endforelse
 
                 </div>
                 <!-- col.// -->
@@ -74,11 +73,11 @@
                             </div> --}}
                             <dl class="dlist-align">
                                 <dt>Subtotal:</dt>
-                                <dd class="text-end"> ${{ Cart::subtotal() }}</dd>
+                                <dd class="text-end"> ${{ Cart::instance('cart')->subtotal() }}</dd>
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Tax:</dt>
-                                <dd class="text-end"> ${{ Cart::tax() }}</dd>
+                                <dd class="text-end"> ${{ Cart::instance('cart')->tax() }}</dd>
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Shipping:</dt>
@@ -86,7 +85,7 @@
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Total:</dt>
-                                <dd class="text-end text-dark h5"> ${{  Cart::total() }} </dd>
+                                <dd class="text-end text-dark h5"> ${{ Cart::instance('cart')->total() }} </dd>
                             </dl>
                             <hr>
                             <a href="{{ url('checkout') }}" class="btn btn-primary mb-2 w-100">Checkout</a>
@@ -99,6 +98,58 @@
                     <!-- card.// -->
                 </aside>
                 <!-- col.// -->
+            </div>
+            <!-- row.// -->
+            <!-- =================== COMPONENT 2 CART+SUMMARY END .// ====================== -->
+
+
+
+               <!-- ====================== COMPONENT 2 CART+SUMMARY ====================== -->
+               <div class="row">
+                <div class="col-md-9">
+                    <h2>{{$saveForLater->count()}} Item(s) Saved For Leter</h2>
+                    @if( session()->has('s_success_message') )
+                        <div class="alert alert-success">
+                            <strong>Success</strong> {{ session()->get('s_success_message') }}
+                        </div>
+                    @endif
+                    @forelse ( $saveForLater as $item )
+
+                            <article class="card card-body mb-3">
+                                <div class="row gy-3 align-items-center">
+                                    <div class="col-md-6">
+                                        <a href="{{ route('product.details',['slug'=>$item->model->slug]) }}"
+                                            class="itemside align-items-center">
+                                            <div class="aside">
+                                                <img src="{{ asset('frontend/images/products/'.$item->model->image) }}" alt="{{ asset('frontend/images/products/'.$item->model->image) }}" height="72"
+                                                    width="72" class="img-thumbnail img-sm">
+                                            </div>
+                                            <div class="info">
+                                                <p class="title">{{ $item->model->name }}</p>
+                                                <span class="text-muted">Clothes</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="#" wire:click.prevent="moveToCart('{{$item->rowId}}')" >Move to cart</a>
+                                    </div>
+                                    <div class="col"> <strong class="price"> ${{ $item->subtotal }} </strong> </div>
+                                    <div class="col text-end">
+                                        <a href="#" wire:click.prevent="deleteFromSameForLater('{{ $item->rowId }}')"
+                                            class="btn btn-icon btn-outline-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- row.// -->
+                            </article>
+
+                    @empty
+                        <div class="alert alert-info">No item save for later</div>
+                    @endforelse
+
+                </div>
+
             </div>
             <!-- row.// -->
             <!-- =================== COMPONENT 2 CART+SUMMARY END .// ====================== -->
