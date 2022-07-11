@@ -98,7 +98,7 @@ Route::get('/wishlist',WishlistComponent::class)->name('product.wishlist');
         Route::get('/admin/sale',AdminSaleComponent::class)->name('admin.sale');
 
         Route::get('/admin/coupons',AdminCouponsComponent::class)->name('admin.coupons');
-        Route::get('/admin/coupons/add',AdminAddCouponsComponent::class)->name('admin.coupons.add');
-        Route::get('/admin/coupons/edit/{coupon_id}',AdminEditCouponsComponent::class)->name('admin.coupons.edit');
+        Route::get('/admin/coupons/add',AdminAddCouponsComponent::class)->name('admin.addcoupon');
+        Route::get('/admin/coupons/edit/{coupon_id}',AdminEditCouponsComponent::class)->name('admin.editcoupon');
     });
 // });

@@ -25,12 +25,12 @@
                             <form class="settings-form" wire:submit.prevent="storeCategory">
                                 <div class="mb-3">
                                     <label for="category_name" class="form-label">Category name</label>
-                                        <input type="text" class="form-control" id="category_name" placeholder="Category name" wire:model="name" wire:keyup="generateslug"  required>
+                                        <input type="text" class="form-control" id="category_name" placeholder="Category name" wire:model="name" wire:keyup="generateslug" >
                                         @error('name') <p class="text-danger">{{ $message }}</p> @enderror
                                     </div>
                                 <div class="mb-3">
                                     <label for="category_slug" class="form-label">Category slug</label>
-                                    <input type="text" class="form-control" id="category_slug" placeholder="Category slug" wire:model="slug"  required>
+                                    <input type="text" class="form-control" id="category_slug" placeholder="Category slug" wire:model="slug" >
                                     @error('slug') <p class="text-danger">{{ $message }}</p> @enderror
                                 </div>
 
